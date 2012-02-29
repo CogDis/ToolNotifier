@@ -1,0 +1,7 @@
+name: ToolNotifier
+main: com.precipicegames.utilities.ToolNotifier
+version: 0.4a
+authors:
+  - PrecipiceGames (Maintainer)
+  - HACKhalo2 (Developer)
+  - MrAdam (Original Developer)
