@@ -20,21 +20,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ToolNotifier extends JavaPlugin
 {
 	Listener toolListener = new ToolListener(this);
-	HashMap<Player, Integer> players = new HashMap<Player, Integer>();
 	HashMap<Material, Integer> tools = new HashMap<Material, Integer>();
-	static String mainDirectory = "plugins/ToolNotifier/";
-	HashMap<Integer, String> notify = new HashMap<Integer, String>();
-
-	public void onEnable()
-	{
-		new File(mainDirectory).mkdirs();
-		LoadSettings.loadMain();
-
-		String[] notifySplit = LoadSettings.Notify.split(":");
-		for (String message : notifySplit) {
-			this.notify.put(Integer.valueOf(message.split(",")[0]), message.split(",")[1]);
-		}
-
+	File configDirectory;
+	PluginYaml config;
+	
+	public void onLoad() {
+		configDirectory = this.getDataFolder();
+		configDirectory.mkdirs();
+		
+	}
+	
+	public void onEnable() {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(this.toolListener, this);
 
@@ -50,30 +46,30 @@ public class ToolNotifier extends JavaPlugin
 
 	public void onDisable() { }
 
-	public void onToolDamaged(Player player)
-	{
+	//TODO: Modify this to take advantage of the new save format
+	public void onToolDamaged(Player player) {
 		Material toolInHand = player.getItemInHand().getType();
 
 		double toolUses = player.getItemInHand().getDurability();
 		double maxUses = ((Integer)this.tools.get(toolInHand)).intValue();
 		double usesLeft = maxUses - 1.0D - toolUses;
 
-		if (this.notify.containsKey(Integer.valueOf((int)usesLeft)))
+		if (this.config.notify.containsKey(Integer.valueOf((int)usesLeft)))
 		{
-			if (!this.players.containsKey(player))
+			if (!this.config.players.containsKey(player))
 			{
-				this.players.put(player, Integer.valueOf((int)usesLeft));
+				this.config.players.put(player, Integer.valueOf((int)usesLeft));
 
-				String message = (String)this.notify.get(Integer.valueOf((int)usesLeft));
+				String message = (String)this.config.notify.get(Integer.valueOf((int)usesLeft));
 				player.sendMessage(ChatColor.valueOf(LoadSettings.Color) + ChatColor.stripColor(message));
 			}
 
-			if (((Integer)this.players.get(player)).intValue() != (int)usesLeft)
+			if (((Integer)this.config.players.get(player)).intValue() != (int)usesLeft)
 			{
-				String message = (String)this.notify.get(Integer.valueOf((int)usesLeft));
+				String message = (String)this.config.notify.get(Integer.valueOf((int)usesLeft));
 				player.sendMessage(ChatColor.valueOf(LoadSettings.Color) + ChatColor.stripColor(message));
 
-				this.players.put(player, Integer.valueOf((int)usesLeft));
+				this.config.players.put(player, Integer.valueOf((int)usesLeft));
 			}
 		}
 	}
