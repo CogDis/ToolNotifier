@@ -21,12 +21,19 @@ public class PluginYaml extends YamlConfiguration {
 	public HashMap<Player, Integer> players = new HashMap<Player, Integer>();
 
 	public PluginYaml(File file) {
+		Player[] players = Bukkit.getOnlinePlayers();
 		if(file != null && file.exists()) {
 			try {
 				this.load(file);
 			} catch (Exception e) {
 				Bukkit.getLogger().warning("[ToolNotifier] Error loading config.yml! Using default values...");
 			}
+		}
+		
+		//Load up the players
+		for(int i = 0; i < players.length; i++) {
+			Integer uses = this.getInt("notify."+players[i].getName()+".usesleft");
+			this.players.put(players[i], uses);
 		}
 		
 		//TODO: Pull hashmap values out of the configuration
@@ -46,15 +53,16 @@ public class PluginYaml extends YamlConfiguration {
 		//Save the players
 		while(itplayers.hasNext()) {
 			Map.Entry<Player, Integer> pair = itplayers.next();
-			this.set("notify."+pair.getKey().getName()+".usesleft", pair.getValue());
+			this.set("ToolNotifier.players."+pair.getKey().getName()+".usesleft", pair.getValue());
 		}
 		//Save the notifications
 		while(itnotify.hasNext()) {
 			Map.Entry<Integer, String> pair = itnotify.next();
-			this.set("notify.message."+pair.getKey(), pair.getValue());
+			this.set("ToolNotifier.message."+pair.getKey(), pair.getValue());
 		}
-		
-		//TODO: Store the Colors
+		//Save the colors
+		this.set("ToolNotifier.color.warning", warningColor.name());
+		this.set("ToolNotifier.color.danger", dangerColor.name());
 		
 		try {
 			this.save(config);

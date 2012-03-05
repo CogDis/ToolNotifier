@@ -1,0 +1,20 @@
+ToolNotifier:
+  colors:
+    warning: YELLOW
+    danger: RED
+  message:
+    10:
+      message: "You notice wear on your ${tool_name}"
+      type: "WARNING"
+    5:
+      message: "Your ${tool_name} rattles with each use"
+      type: "WARNING"
+    2:
+      message: "Your ${tool_name} cannot take the strain anymore!"
+      type: "DANGER"
+  tools:
+    wood: 60
+    stone: 132
+    iron: 251
+    gold: 33
+    diamond: 1562

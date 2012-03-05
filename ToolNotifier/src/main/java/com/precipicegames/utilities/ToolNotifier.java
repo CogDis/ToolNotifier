@@ -27,7 +27,7 @@ public class ToolNotifier extends JavaPlugin
 	public void onLoad() {
 		configDirectory = this.getDataFolder();
 		configDirectory.mkdirs();
-		
+		config = new PluginYaml(new File(configDirectory, "config.yml"));
 	}
 	
 	public void onEnable() {
@@ -44,7 +44,9 @@ public class ToolNotifier extends JavaPlugin
 		System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");
 	}
 
-	public void onDisable() { }
+	public void onDisable() {
+		this.config.save();
+	}
 
 	//TODO: Modify this to take advantage of the new save format
 	public void onToolDamaged(Player player) {

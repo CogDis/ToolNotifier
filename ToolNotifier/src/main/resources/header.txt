@@ -1,0 +1,12 @@
+Precipice Open License
+Authored by HACKhalo2 in 2012 hackhalo2@precipicegames.com
+GitHub Repo: https://github.com/PrecipiceGames/ToolNotifier
+
+The project or text under this license is open for modification by anyone (known as the Modifier) as long as:
+- The Modifier keeps the modifications under this license, and
+- The Modifier doesn't redistribute the project or text under another name unless the Author gives the Modifier written permission, and
+- The Modifier doesn't take Authorship of the project or text unless the Author gives written permission
+
+The Modifier is suggested to:
+- Fork and submit a pull request of their modified code so everyone can benefit from it
+- Submit bug reports and optimizations
